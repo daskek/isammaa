@@ -152,16 +152,9 @@ class Scene_Battle < Scene_Base
     @spriteset.dispose
   end
   #--------------------------------------------------------------------------
-  # * Log Window Accessor
-  #--------------------------------------------------------------------------
-  class Scene_Battle < Scene_Base
-    attr_accessor:log_window
-  end
-  #--------------------------------------------------------------------------
   # * Create All Windows
   #--------------------------------------------------------------------------
   def create_all_windows
-    create_blank_window
     create_message_window
     create_scroll_text_window
     create_log_window
@@ -214,12 +207,6 @@ class Scene_Battle < Scene_Base
     @status_window.viewport = @info_viewport
   end
   #--------------------------------------------------------------------------
-  # * Create Blank Window
-  #--------------------------------------------------------------------------  
-  def create_blank_window
-    @blank_window = Window_Base.new(0, Graphics.height - 120, Graphics.width, 120)
-  end
-  #--------------------------------------------------------------------------
   # * Create Party Commands Window
   #--------------------------------------------------------------------------
   def create_party_command_window
@@ -235,11 +222,10 @@ class Scene_Battle < Scene_Base
   def create_actor_command_window
     @actor_command_window = Window_ActorCommand.new
     @actor_command_window.viewport = @info_viewport
-    #@actor_command_window.set_handler(:attack, method(:command_attack))
+    @actor_command_window.set_handler(:attack, method(:command_attack))
     @actor_command_window.set_handler(:skill,  method(:command_skill))
-    #@actor_command_window.set_handler(:guard,  method(:command_guard))
+    @actor_command_window.set_handler(:guard,  method(:command_guard))
     @actor_command_window.set_handler(:item,   method(:command_item))
-    #@actor_command_window.set_handler(:formation,   method(:command_formation))
     @actor_command_window.set_handler(:cancel, method(:prior_command))
     @actor_command_window.x = Graphics.width
   end
@@ -316,7 +302,7 @@ class Scene_Battle < Scene_Base
       refresh_status
       @status_window.unselect
       @status_window.open
-      if BattleManager.input_start and !$game_switches[15]
+      if BattleManager.input_start
         @actor_command_window.close
         @party_command_window.setup
       else
@@ -362,14 +348,6 @@ class Scene_Battle < Scene_Base
     @skill_window.show.activate
   end
   #--------------------------------------------------------------------------
-  # * [Formation] Command
-  #--------------------------------------------------------------------------
-  def command_formation
-    @formation_window = Window_MenuStatus.new(0, 0)
-    @formation_window.refresh
-    @formation_window.show.activate
-  end
-  #--------------------------------------------------------------------------
   # * [Guard] Command
   #--------------------------------------------------------------------------
   def command_guard
@@ -380,10 +358,8 @@ class Scene_Battle < Scene_Base
   # * [Item] Command
   #--------------------------------------------------------------------------
   def command_item
-    #@item_window.refresh
-    #@item_window.show.activate
-    SceneManager.snapshot_for_background
-    SceneManager.call(Scene_Item)
+    @item_window.refresh
+    @item_window.show.activate
   end
   #--------------------------------------------------------------------------
   # * Start Actor Selection
@@ -495,8 +471,6 @@ class Scene_Battle < Scene_Base
   # * Battle Start
   #--------------------------------------------------------------------------
   def battle_start
-    $game_temp.reserve_common_event(6)
-    $game_switches[9] = true
     BattleManager.battle_start
     process_event
     start_party_command_selection
