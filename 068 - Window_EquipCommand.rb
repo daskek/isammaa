@@ -23,14 +23,14 @@ class Window_EquipCommand < Window_HorzCommand
   # * Get Digit Count
   #--------------------------------------------------------------------------
   def col_max
-    return 3
+    return 2
   end
   #--------------------------------------------------------------------------
   # * Create Command List
   #--------------------------------------------------------------------------
   def make_command_list
     add_command(Vocab::equip2,   :equip)
-    add_command(Vocab::optimize, :optimize)
+    #add_command(Vocab::optimize, :optimize)
     add_command(Vocab::clear,    :clear)
   end
 end

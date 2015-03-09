@@ -67,7 +67,11 @@ class Window_ItemList < Window_Selectable
   # * Display in Enabled State?
   #--------------------------------------------------------------------------
   def enable?(item)
-    $game_party.usable?(item)
+    if item.is_a?(RPG::Weapon) and $game_switches[18] and !$game_switches[10] and !$game_switches[22]
+      return true
+    else
+      return $game_party.usable?(item)
+    end
   end
   #--------------------------------------------------------------------------
   # * Create Item List
@@ -91,7 +95,11 @@ class Window_ItemList < Window_Selectable
       rect = item_rect(index)
       rect.width -= 4
       draw_item_name(item, rect.x, rect.y, enable?(item))
-      draw_item_number(rect, item)
+      if !item.is_a?(RPG::Item)
+        draw_item_number(rect, item)
+      elsif item.is_a?(RPG::Item) && !item.key_item?
+        draw_item_number(rect, item)
+      end
     end
   end
   #--------------------------------------------------------------------------

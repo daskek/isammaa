@@ -46,7 +46,7 @@ class Window_EquipStatus < Window_Base
   def refresh
     contents.clear
     draw_actor_name(@actor, 4, 0) if @actor
-    6.times {|i| draw_item(0, line_height * (1 + i), 2 + i) }
+    5.times {|i| draw_item(0, line_height * (1 + i), 2 + i) }
   end
   #--------------------------------------------------------------------------
   # * Set Temporary Actor After Equipment Change

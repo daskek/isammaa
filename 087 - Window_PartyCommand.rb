@@ -30,8 +30,14 @@ class Window_PartyCommand < Window_Command
   # * Create Command List
   #--------------------------------------------------------------------------
   def make_command_list
-    add_command(Vocab::fight,  :fight)
+    add_command(Vocab::fight,  :fight, enable_fight?)
     add_command(Vocab::escape, :escape, BattleManager.can_escape?)
+  end
+  #--------------------------------------------------------------------------
+  # * Enable Fight
+  #--------------------------------------------------------------------------
+  def enable_fight?
+    return true unless $game_switches[15]
   end
   #--------------------------------------------------------------------------
   # * Setup

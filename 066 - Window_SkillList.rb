@@ -89,7 +89,9 @@ class Window_SkillList < Window_Selectable
       rect = item_rect(index)
       rect.width -= 4
       draw_item_name(skill, rect.x, rect.y, enable?(skill))
-      draw_skill_cost(rect, skill)
+      #draw_text(rect, "PP", 2)
+      #draw_skill_cost(rect, skill)
+      draw_tech_points_cost(rect, skill)
     end
   end
   #--------------------------------------------------------------------------

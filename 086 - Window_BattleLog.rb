@@ -217,6 +217,10 @@ class Window_BattleLog < Window_Selectable
   def display_use_item(subject, item)
     if item.is_a?(RPG::Skill)
       add_text(subject.name + item.message1)
+      if $game_switches[10] and item.id == 6
+        wait
+        add_text("But it failed!")
+      end
       unless item.message2.empty?
         wait
         add_text(item.message2)
@@ -334,7 +338,7 @@ class Window_BattleLog < Window_Selectable
       target.perform_damage_effect
     end
     Sound.play_recovery if target.result.hp_damage < 0
-    add_text(target.result.hp_damage_text)
+    #add_text(target.result.hp_damage_text)
     wait
   end
   #--------------------------------------------------------------------------

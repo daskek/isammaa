@@ -450,7 +450,11 @@ class Game_Actor < Game_Battler
   # * Get EXP (Account for Experience Rate)
   #--------------------------------------------------------------------------
   def gain_exp(exp)
-    change_exp(self.exp + (exp * final_exp_rate).to_i, true)
+    if $game_switches[10]
+      change_exp(self.exp + (exp * final_exp_rate).to_i, true)
+    else
+      change_exp(self.exp + (exp * final_exp_rate).to_i, true)
+    end
   end
   #--------------------------------------------------------------------------
   # * Calculate Final EXP Rate

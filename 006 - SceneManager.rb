@@ -83,7 +83,7 @@ module SceneManager
   def self.snapshot_for_background
     @background_bitmap.dispose if @background_bitmap
     @background_bitmap = Graphics.snap_to_bitmap
-    @background_bitmap.blur
+    @background_bitmap.blur unless SceneManager.scene_is?(Scene_Menu)
   end
   #--------------------------------------------------------------------------
   # * Get Background Bitmap

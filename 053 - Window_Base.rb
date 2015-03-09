@@ -11,6 +11,7 @@ class Window_Base < Window
   def initialize(x, y, width, height)
     super
     self.windowskin = Cache.system("Window")
+    self.back_opacity = 221
     update_padding
     update_tone
     create_contents
@@ -501,6 +502,15 @@ class Window_Base < Window
       hp_color(actor), normal_color)
   end
   #--------------------------------------------------------------------------
+  # * Draw EXP
+  #--------------------------------------------------------------------------
+  def draw_actor_exp(actor, x, y, width = 124)
+    draw_gauge(x, y, width, ((((actor.exp - actor.current_level_exp).to_f/100) / ((actor.next_level_exp.to_f - actor.current_level_exp.to_f)/100))),
+    system_color, normal_color)
+    change_color(system_color)
+    draw_text(x, y, 30, line_height, "XP")
+  end
+  #--------------------------------------------------------------------------
   # * Draw MP
   #--------------------------------------------------------------------------
   def draw_actor_mp(actor, x, y, width = 124)
@@ -526,10 +536,10 @@ class Window_Base < Window
   def draw_actor_simple_status(actor, x, y)
     draw_actor_name(actor, x, y)
     draw_actor_level(actor, x, y + line_height * 1)
-    draw_actor_icons(actor, x, y + line_height * 2)
-    draw_actor_class(actor, x + 120, y)
+    #draw_actor_icons(actor, x, y + line_height * 2)
+    #draw_actor_class(actor, x + 120, y)
     draw_actor_hp(actor, x + 120, y + line_height * 1)
-    draw_actor_mp(actor, x + 120, y + line_height * 2)
+    #draw_actor_mp(actor, x + 120, y + line_height * 2)
   end
   #--------------------------------------------------------------------------
   # * Draw Parameters

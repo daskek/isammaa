@@ -35,8 +35,10 @@ module BattleManager
   # * Processing at Encounter Time
   #--------------------------------------------------------------------------
   def self.on_encounter
-    @preemptive = (rand < rate_preemptive)
-    @surprise = (rand < rate_surprise && !@preemptive)
+    #@preemptive = (rand < rate_preemptive)
+    @preemptive = false
+    #@surprise = (rand < rate_surprise && !@preemptive)
+    @surprise = false
   end
   #--------------------------------------------------------------------------
   # * Get Probability of Preemptive Attack
@@ -81,7 +83,7 @@ module BattleManager
   # * Create Escape Success Probability
   #--------------------------------------------------------------------------
   def self.make_escape_ratio
-    @escape_ratio = 1.5 - 1.0 * $game_troop.agi / $game_party.agi
+    @escape_ratio = 1.5 - 0.5 * $game_troop.agi / $game_party.agi
   end
   #--------------------------------------------------------------------------
   # * Determine if Turn Is Executing
@@ -168,14 +170,21 @@ module BattleManager
     $game_system.battle_count += 1
     $game_party.on_battle_start
     $game_troop.on_battle_start
-    $game_troop.enemy_names.each do |name|
-      $game_message.add(sprintf(Vocab::Emerge, name))
+    if $game_party.all_members.first.dead?
+      $game_message.add(sprintf(Vocab::Defeat, $game_party.name))
+    elsif $game_switches[10] and $game_switches[9]
+      #$game_message.add(sprintf(Vocab::Trainer, $game_actors[1].name))
+    elsif $game_switches[9] and !$game_switches[3] and !$game_switches[18]
+      #$game_troop.enemy_names.each do |name|
+        #$game_message.add(sprintf(Vocab::Emerge, name))
+      #end
     end
     if @preemptive
-      $game_message.add(sprintf(Vocab::Preemptive, $game_party.name))
+      #$game_message.add(sprintf(Vocab::Preemptive, $game_party.name))
     elsif @surprise
-      $game_message.add(sprintf(Vocab::Surprise, $game_party.name))
+      #$game_message.add(sprintf(Vocab::Surprise, $game_party.name))
     end
+    $game_switches[9] = false
     wait_for_message
   end
   #--------------------------------------------------------------------------
@@ -200,25 +209,40 @@ module BattleManager
   # * Victory Processing
   #--------------------------------------------------------------------------
   def self.process_victory
-    play_battle_end_me
-    replay_bgm_and_bgs
-    $game_message.add(sprintf(Vocab::Victory, $game_party.name))
-    display_exp
-    gain_gold
-    gain_drop_items
-    gain_exp
-    SceneManager.return
-    battle_end(0)
-    return true
+    if $game_switches[20]
+      play_battle_end_me
+      replay_bgm_and_bgs
+      #$game_message.add(sprintf(Vocab::Victory, $game_party.name))
+      #$game_message.add(sprintf(Vocab::Victory, $game_actors[8].name))
+      SceneManager.return
+      battle_end(0)
+      $game_temp.reserve_common_event(7)
+      return true
+    end
+    $game_variables[23] -= 1
+    if $game_variables[23] >= 0
+      display_exp unless $game_switches[25]
+      gain_gold
+      gain_drop_items
+      gain_exp unless $game_switches[25]
+    else
+      $game_switches[17] = true
+    end
   end
   #--------------------------------------------------------------------------
   # * Escape Processing
   #--------------------------------------------------------------------------
   def self.process_escape
-    $game_message.add(sprintf(Vocab::EscapeStart, $game_party.name))
-    success = @preemptive ? true : (rand < @escape_ratio)
+    #$game_message.add(sprintf(Vocab::EscapeStart, $game_party.name))
+    if $game_switches[15] or $game_switches[23]
+      success = false
+    else
+      success = @preemptive ? true : (rand < @escape_ratio)
+    end
     Sound.play_escape
     if success
+      $game_message.add("Got away safely!")
+      wait_for_message
       process_abort
     else
       @escape_ratio += 0.1
@@ -235,23 +259,43 @@ module BattleManager
     replay_bgm_and_bgs
     SceneManager.return
     battle_end(1)
+    $game_temp.reserve_common_event(7)
     return true
   end
   #--------------------------------------------------------------------------
   # * Defeat Processing
   #--------------------------------------------------------------------------
   def self.process_defeat
-    $game_message.add(sprintf(Vocab::Defeat, $game_party.name))
-    wait_for_message
-    if @can_lose
-      revive_battle_members
-      replay_bgm_and_bgs
-      SceneManager.return
-    else
-      SceneManager.goto(Scene_Gameover)
+    #$game_message.add(sprintf(Vocab::Defeat, $game_party.name))
+    #wait_for_message
+    $party_dead = true
+    $game_party.all_members.each do |actor|
+      $party_dead = false if !actor.dead?
     end
-    battle_end(2)
-    return true
+    if !$party_dead
+      $game_party.swap_order(0,1) if $game_party.all_members.size == 2
+      $game_switches[3] = true
+      $game_switches[20] = true
+      Graphics.freeze
+      SceneManager.snapshot_for_background
+      SceneManager.call(Scene_Party)
+      Graphics.transition(10)
+    else
+      if @can_lose
+        revive_battle_members
+        replay_bgm_and_bgs
+        SceneManager.return
+      else
+        revive_battle_members
+        #SceneManager.goto(Scene_Gameover)
+        replay_bgm_and_bgs
+        SceneManager.return
+        $game_switches[1] = true
+      end
+      battle_end(2)
+      $game_temp.reserve_common_event(7)
+      return true
+    end
   end
   #--------------------------------------------------------------------------
   # * Revive Battle Members (When Defeated)
@@ -282,7 +326,8 @@ module BattleManager
       $game_troop.make_actions
       clear_actor
     end
-    return !@surprise && $game_party.inputable?
+    #return !@surprise && $game_party.inputable?
+    return $game_party.inputable?
   end
   #--------------------------------------------------------------------------
   # * Start Turn
@@ -345,7 +390,8 @@ module BattleManager
   #--------------------------------------------------------------------------
   def self.make_action_orders
     @action_battlers = []
-    @action_battlers += $game_party.members unless @surprise
+    @action_battlers += $game_party.members unless @surprise or $game_switches[15]
+    $game_switches[15] = false
     @action_battlers += $game_troop.members unless @preemptive
     @action_battlers.each {|battler| battler.make_speed }
     @action_battlers.sort! {|a,b| b.speed - a.speed }

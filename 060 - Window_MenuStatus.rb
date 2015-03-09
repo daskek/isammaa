@@ -33,23 +33,32 @@ class Window_MenuStatus < Window_Selectable
   # * Get Number of Items
   #--------------------------------------------------------------------------
   def item_max
-    $game_party.members.size
+    if $game_switches[18]
+      $game_party.all_members.size
+    else
+      $game_party.members.size
+    end
   end
   #--------------------------------------------------------------------------
   # * Get Item Height
   #--------------------------------------------------------------------------
   def item_height
-    (height - standard_padding * 2) / 4
+    #(height - standard_padding * 2) / 4
+    (height - standard_padding * 2) / 6
   end
   #--------------------------------------------------------------------------
   # * Draw Item
   #--------------------------------------------------------------------------
   def draw_item(index)
-    actor = $game_party.members[index]
+    if $game_switches[18]
+      actor = $game_party.all_members[index]
+    else
+      actor = $game_party.members[index]
+    end
     enabled = $game_party.battle_members.include?(actor)
     rect = item_rect(index)
     draw_item_background(index)
-    draw_actor_face(actor, rect.x + 1, rect.y + 1, enabled)
+    draw_actor_face(actor, rect.x + 1, rect.y + 1)
     draw_actor_simple_status(actor, rect.x + 108, rect.y + line_height / 2)
   end
   #--------------------------------------------------------------------------

@@ -74,6 +74,9 @@ class Scene_Skill < Scene_ItemBase
   def on_item_ok
     @actor.last_skill.object = item
     determine_item
+    if !$game_switches[18] and $game_temp.common_event_reserved?
+      SceneManager.goto(Scene_Map)
+    end
   end
   #--------------------------------------------------------------------------
   # * Item [Cancel]

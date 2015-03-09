@@ -11,7 +11,7 @@ class Scene_Equip < Scene_MenuBase
   def start
     super
     create_help_window
-    create_status_window
+    #create_status_window
     create_command_window
     create_slot_window
     create_item_window
@@ -96,7 +96,7 @@ class Scene_Equip < Scene_MenuBase
   def command_clear
     Sound.play_equip
     @actor.clear_equipments
-    @status_window.refresh
+    #@status_window.refresh
     @slot_window.refresh
     @command_window.activate
   end
@@ -136,7 +136,7 @@ class Scene_Equip < Scene_MenuBase
   # * Change Actors
   #--------------------------------------------------------------------------
   def on_actor_change
-    @status_window.actor = @actor
+    #@status_window.actor = @actor
     @slot_window.actor = @actor
     @item_window.actor = @actor
     @command_window.activate

@@ -71,5 +71,9 @@ class Scene_Item < Scene_ItemBase
   def use_item
     super
     @item_window.redraw_current_item
+    if $game_switches[18]
+      SceneManager.return
+      $game_switches[15] = true
+    end
   end
 end

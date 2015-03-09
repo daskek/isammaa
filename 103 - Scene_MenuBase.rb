@@ -26,7 +26,7 @@ class Scene_MenuBase < Scene_Base
   def create_background
     @background_sprite = Sprite.new
     @background_sprite.bitmap = SceneManager.background_bitmap
-    @background_sprite.color.set(16, 16, 16, 128)
+    #@background_sprite.color.set(16, 16, 16, 128)
   end
   #--------------------------------------------------------------------------
   # * Free Background

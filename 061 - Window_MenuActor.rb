@@ -17,7 +17,11 @@ class Window_MenuActor < Window_MenuStatus
   # * Processing When OK Button Is Pressed
   #--------------------------------------------------------------------------
   def process_ok
-    $game_party.target_actor = $game_party.members[index] unless @cursor_all
+    if $game_switches[18]
+      $game_party.target_actor = $game_party.all_members[index] unless @cursor_all
+    else
+      $game_party.target_actor = $game_party.members[index] unless @cursor_all
+    end
     call_ok_handler
   end
   #--------------------------------------------------------------------------

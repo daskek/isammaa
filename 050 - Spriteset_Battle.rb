@@ -361,7 +361,7 @@ class Spriteset_Battle
   #--------------------------------------------------------------------------
   def update_viewports
     @viewport1.tone.set($game_troop.screen.tone)
-    @viewport1.ox = $game_troop.screen.shake
+    #@viewport1.ox = $game_troop.screen.shake
     @viewport2.color.set($game_troop.screen.flash_color)
     @viewport3.color.set(0, 0, 0, 255 - $game_troop.screen.brightness)
     @viewport1.update

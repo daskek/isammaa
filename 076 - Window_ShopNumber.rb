@@ -97,7 +97,7 @@ class Window_ShopNumber < Window_Selectable
   # * Get Maximum Number of Digits for Quantity Display
   #--------------------------------------------------------------------------
   def figures
-    return 2
+    return 3
   end
   #--------------------------------------------------------------------------
   # * Frame Update

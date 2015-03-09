@@ -182,7 +182,11 @@ class Game_Troop < Game_Unit
   # * Calculate Total Experience
   #--------------------------------------------------------------------------
   def exp_total
-    dead_members.inject(0) {|r, enemy| r += enemy.exp }
+    if $game_switches[10]
+      dead_members.inject(0) {|r, enemy| r += (enemy.exp * 1.5).round }
+    else
+      dead_members.inject(0) {|r, enemy| r += enemy.exp }
+    end
   end
   #--------------------------------------------------------------------------
   # * Calculate Total Gold

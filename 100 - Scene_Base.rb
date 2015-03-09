@@ -127,6 +127,7 @@ class Scene_Base
   #   Transition to the game over screen if the entire party is dead.
   #--------------------------------------------------------------------------
   def check_gameover
-    SceneManager.goto(Scene_Gameover) if $game_party.all_dead?
+    #SceneManager.goto(Scene_Gameover) if $game_party.all_dead?
+    $game_switches[1] = true if $game_party.all_dead?
   end
 end

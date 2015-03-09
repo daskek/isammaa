@@ -54,7 +54,7 @@ class Window_BattleStatus < Window_Selectable
     draw_gauge_area(gauge_area_rect(index), actor)
   end
   #--------------------------------------------------------------------------
-  # * Get Basic Area Retangle
+  # * Get Basic Area Rectangle
   #--------------------------------------------------------------------------
   def basic_area_rect(index)
     rect = item_rect_for_text(index)
@@ -80,7 +80,13 @@ class Window_BattleStatus < Window_Selectable
   # * Draw Basic Area
   #--------------------------------------------------------------------------
   def draw_basic_area(rect, actor)
-    draw_actor_name(actor, rect.x + 0, rect.y, 100)
+    draw_actor_name(actor, rect.x + 0, rect.y, 182)
+    draw_actor_level(actor, rect.x + 0, rect.y+24)
+    #actor_face = 0
+    #$game_party.all_members.each do |actor|
+      #draw_actor_face(actor, rect.x + actor_face * 56 - 16, rect.y + 38, enabled = !actor.dead?)
+      #actor_face += 1
+    #end
     draw_actor_icons(actor, rect.x + 104, rect.y, rect.width - 104)
   end
   #--------------------------------------------------------------------------
@@ -98,14 +104,15 @@ class Window_BattleStatus < Window_Selectable
   #--------------------------------------------------------------------------
   def draw_gauge_area_with_tp(rect, actor)
     draw_actor_hp(actor, rect.x + 0, rect.y, 72)
-    draw_actor_mp(actor, rect.x + 82, rect.y, 64)
-    draw_actor_tp(actor, rect.x + 156, rect.y, 64)
+    #draw_actor_mp(actor, rect.x + 82, rect.y, 64)
+    #draw_actor_tp(actor, rect.x + 156, rect.y, 64)
   end
   #--------------------------------------------------------------------------
   # * Draw Gauge Area (without TP)
   #--------------------------------------------------------------------------
   def draw_gauge_area_without_tp(rect, actor)
-    draw_actor_hp(actor, rect.x + 0, rect.y, 134)
-    draw_actor_mp(actor, rect.x + 144,  rect.y, 76)
+    draw_actor_hp(actor, rect.x + 82, rect.y, 134)
+    draw_actor_exp(actor, rect.x + 82, rect.y + 24, 134)
+    #draw_actor_mp(actor, rect.x + 144,  rect.y, 76)
   end
 end

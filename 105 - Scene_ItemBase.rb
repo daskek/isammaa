@@ -11,6 +11,7 @@ class Scene_ItemBase < Scene_MenuBase
   def start
     super
     create_actor_window
+    BattleManager.turn_end if $game_switches[18]
   end
   #--------------------------------------------------------------------------
   # * Create Actor Window
@@ -30,7 +31,11 @@ class Scene_ItemBase < Scene_MenuBase
   # * Get Item's User
   #--------------------------------------------------------------------------
   def user
-    $game_party.movable_members.max_by {|member| member.pha }
+    if $game_switches[18]
+      $game_party.all_members.max_by {|member| member.pha }
+    else
+      $game_party.movable_members.max_by {|member| member.pha }
+    end
   end
   #--------------------------------------------------------------------------
   # * Determine if Cursor Is in Left Column
@@ -77,12 +82,21 @@ class Scene_ItemBase < Scene_MenuBase
   # * Confirm Item
   #--------------------------------------------------------------------------
   def determine_item
-    if item.for_friend?
+    if item.is_a?(RPG::Weapon)
+      $game_variables[18] = item.id
+      play_se_for_item
+      activate_item_window
+      SceneManager.return
+      @actor_window.refresh
+      $game_switches[19] = true
+    elsif item.for_friend?
       show_sub_window(@actor_window)
       @actor_window.select_for_item(item)
     else
       use_item
       activate_item_window
+      SceneManager.return
+      @actor_window.refresh
     end
   end
   #--------------------------------------------------------------------------
@@ -99,9 +113,17 @@ class Scene_ItemBase < Scene_MenuBase
     if !item.for_friend?
       []
     elsif item.for_all?
-      $game_party.members
+      if $game_switches[18]
+        $game_party.all_members
+      else
+        $game_party.members
+      end
     else
-      [$game_party.members[@actor_window.index]]
+      if $game_switches[18]
+        [$game_party.all_members[@actor_window.index]]
+      else
+        [$game_party.members[@actor_window.index]]
+      end
     end
   end
   #--------------------------------------------------------------------------

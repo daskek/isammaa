@@ -138,6 +138,7 @@ class Game_Player < Game_Character
     return false if @move_route_forcing
     return false if $game_map.disable_dash?
     return false if vehicle
+    return false if !$game_switches[27]
     return Input.press?(:A)
   end
   #--------------------------------------------------------------------------

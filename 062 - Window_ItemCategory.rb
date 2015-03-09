@@ -39,7 +39,7 @@ class Window_ItemCategory < Window_HorzCommand
   # * Create Command List
   #--------------------------------------------------------------------------
   def make_command_list
-    add_command(Vocab::item,     :item)
+    add_command("Medicine",      :item)
     add_command(Vocab::weapon,   :weapon)
     add_command(Vocab::armor,    :armor)
     add_command(Vocab::key_item, :key_item)

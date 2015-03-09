@@ -11,7 +11,8 @@ class Window_BattleSkill < Window_SkillList
   #--------------------------------------------------------------------------
   def initialize(help_window, info_viewport)
     y = help_window.height
-    super(0, y, Graphics.width, info_viewport.rect.y - y)
+    #super(0, y, Graphics.width, info_viewport.rect.y - y)
+    super(0, y, Graphics.width, 72)
     self.visible = false
     @help_window = help_window
     @info_viewport = info_viewport

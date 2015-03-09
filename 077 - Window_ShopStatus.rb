@@ -21,7 +21,8 @@ class Window_ShopStatus < Window_Base
   def refresh
     contents.clear
     draw_possession(4, 0)
-    draw_equip_info(4, line_height * 2) if @item.is_a?(RPG::EquipItem)
+    draw_big_sprite
+    #draw_equip_info(4, line_height * 2) if @item.is_a?(RPG::EquipItem)
   end
   #--------------------------------------------------------------------------
   # * Set Item
@@ -39,6 +40,25 @@ class Window_ShopStatus < Window_Base
     draw_text(rect, Vocab::Possession)
     change_color(normal_color)
     draw_text(rect, $game_party.item_number(@item), 2)
+  end
+  #--------------------------------------------------------------------------
+  # * Draw Dream Sprite
+  #--------------------------------------------------------------------------
+  def draw_big_sprite
+    item_sprites = [ 1, 2, 3 ]
+    ball_sprites = [ 1, 2, 3 ]
+    item_sprite = @item ? @item.id : 0
+    if item_sprites.include?(item_sprite) and @item.is_a?(RPG::Item)
+      bitmap = Cache.picture('shop_item' + item_sprite.to_s)
+      rect = Rect.new(0, 0, contents.width, contents.height)
+      contents.blt(contents.width / 2 - 45, contents.height / 2 - 45, bitmap, rect)
+      bitmap.dispose
+    elsif ball_sprites.include?(item_sprite) and @item.is_a?(RPG::Weapon)
+      bitmap = Cache.picture('shop_ball' + item_sprite.to_s)
+      rect = Rect.new(0, 0, contents.width, contents.height)
+      contents.blt(contents.width / 2 - 45, contents.height / 2 - 45, bitmap, rect)
+      bitmap.dispose
+    end
   end
   #--------------------------------------------------------------------------
   # * Draw Equipment Information

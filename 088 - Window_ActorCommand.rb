@@ -31,10 +31,11 @@ class Window_ActorCommand < Window_Command
   #--------------------------------------------------------------------------
   def make_command_list
     return unless @actor
-    add_attack_command
+    #add_attack_command
     add_skill_commands
-    add_guard_command
+    #add_guard_command
     add_item_command
+    #add_formation_command
   end
   #--------------------------------------------------------------------------
   # * Add Attack Command to List
@@ -46,10 +47,12 @@ class Window_ActorCommand < Window_Command
   # * Add Skill Command to List
   #--------------------------------------------------------------------------
   def add_skill_commands
-    @actor.added_skill_types.sort.each do |stype_id|
-      name = $data_system.skill_types[stype_id]
-      add_command(name, :skill, true, stype_id)
-    end
+    #@actor.added_skill_types.sort.each do |stype_id|
+      #name = $data_system.skill_types[stype_id]
+      name = "Moves"
+      #add_command(name, :skill, true, stype_id)
+      add_command(name, :skill, true, 1)
+    #end
   end
   #--------------------------------------------------------------------------
   # * Add Guard Command to List
@@ -62,6 +65,18 @@ class Window_ActorCommand < Window_Command
   #--------------------------------------------------------------------------
   def add_item_command
     add_command(Vocab::item, :item)
+  end
+  #--------------------------------------------------------------------------
+  # * Get Activation State of Formation
+  #--------------------------------------------------------------------------
+  def formation_enabled
+    $game_party.members.size >= 2 && !$game_system.formation_disabled
+  end
+  #--------------------------------------------------------------------------
+  # * Add Formation Command to List
+  #--------------------------------------------------------------------------
+  def add_formation_command
+    #add_command(Vocab::formation, :formation, formation_enabled)
   end
   #--------------------------------------------------------------------------
   # * Setup

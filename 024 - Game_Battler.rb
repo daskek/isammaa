@@ -404,6 +404,7 @@ class Game_Battler < Game_BattlerBase
   #--------------------------------------------------------------------------
   def execute_damage(user)
     on_damage(@result.hp_damage) if @result.hp_damage > 0
+    @result.hp_damage += 1
     self.hp -= @result.hp_damage
     self.mp -= @result.mp_damage
     user.hp += @result.hp_drain

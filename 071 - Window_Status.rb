@@ -86,13 +86,15 @@ class Window_Status < Window_Selectable
     draw_actor_level(@actor, x, y + line_height * 0)
     draw_actor_icons(@actor, x, y + line_height * 1)
     draw_actor_hp(@actor, x, y + line_height * 2)
-    draw_actor_mp(@actor, x, y + line_height * 3)
+    draw_actor_exp(@actor, x, y + line_height * 3)
+    #draw_actor_mp(@actor, x, y + line_height * 3)
   end
   #--------------------------------------------------------------------------
   # * Draw Parameters
   #--------------------------------------------------------------------------
   def draw_parameters(x, y)
-    6.times {|i| draw_actor_param(@actor, x, y + line_height * i, i + 2) }
+    #6.times {|i| draw_actor_param(@actor, x, y + line_height * i, i + 2) }
+    5.times {|i| draw_actor_param(@actor, x, y + line_height * i, i + 2) }
   end
   #--------------------------------------------------------------------------
   # * Draw Experience Information

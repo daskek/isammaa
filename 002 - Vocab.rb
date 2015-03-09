@@ -6,6 +6,12 @@
 #==============================================================================
 
 module Vocab
+  
+  # Custom Battle Messages
+  Appeared        = "Wild %s appeared!"
+  ToBattle        = "%s wants to battle!"
+  SentOut         = "%s sent out %s!"
+  Go              = "Go! %s!"
 
   # Shop Screen
   ShopBuy         = "Buy"
@@ -14,7 +20,7 @@ module Vocab
   Possession      = "Possession"
 
   # Status Screen
-  ExpTotal        = "Current Exp"
+  ExpTotal        = "Current XP"
   ExpNext         = "To Next %s"
 
   # Save/Load Screen
@@ -23,30 +29,31 @@ module Vocab
   File            = "File"
 
   # Display when there are multiple members
-  PartyName       = "%s's Party"
+  PartyName       = "Your team"
 
   # Basic Battle Messages
-  Emerge          = "%s emerged!"
+  Emerge          = "Wild %s appeared!"
+  Trainer         = "%s wants to battle!"
   Preemptive      = "%s got the upper hand!"
   Surprise        = "%s was surprised!"
-  EscapeStart     = "%s has started to escape!"
-  EscapeFailure   = "However, it was unable to escape!"
+  EscapeStart     = "You start to escape."
+  EscapeFailure   = "Can't escape!"
 
   # Battle Ending Messages
   Victory         = "%s was victorious!"
-  Defeat          = "%s was defeated."
-  ObtainExp       = "%s EXP received!"
+  Defeat          = "%s has no energy left to battle."
+  ObtainExp       = "%s XP received!"
   ObtainGold      = "%s\\G found!"
-  ObtainItem      = "%s found!"
+  ObtainItem      = "%s was found!"
   LevelUp         = "%s is now %s %s!"
   ObtainSkill     = "%s learned!"
 
   # Use Item
-  UseItem         = "%s uses %s!"
+  UseItem         = "%s used %s!"
 
   # Critical Hit
-  CriticalToEnemy = "An excellent hit!!"
-  CriticalToActor = "A painful blow!!"
+  CriticalToEnemy = "Critical hit!"
+  CriticalToActor = "Critical hit!"
 
   # Results for Actions on Actors
   ActorDamage     = "%s took %s damage!"
@@ -58,7 +65,7 @@ module Vocab
   ActorNoHit      = "Miss! %s took no damage!"
 
   # Results for Actions on Enemies
-  EnemyDamage     = "%s took %s damage!"
+  EnemyDamage     = "%s took damage!"
   EnemyRecovery   = "%s recovered %s %s!"
   EnemyGain       = "%s gained %s %s!"
   EnemyLoss       = "%s lost %s %s!"

@@ -41,6 +41,7 @@ class Scene_Menu < Scene_MenuBase
   #--------------------------------------------------------------------------
   def create_status_window
     @status_window = Window_MenuStatus.new(@command_window.width, 0)
+    @status_window.hide
   end
   #--------------------------------------------------------------------------
   # * [Item] Command
@@ -52,6 +53,7 @@ class Scene_Menu < Scene_MenuBase
   # * [Skill], [Equipment] and [Status] Commands
   #--------------------------------------------------------------------------
   def command_personal
+    @status_window.show
     @status_window.select_last
     @status_window.activate
     @status_window.set_handler(:ok,     method(:on_personal_ok))
@@ -61,6 +63,7 @@ class Scene_Menu < Scene_MenuBase
   # * [Formation] Command
   #--------------------------------------------------------------------------
   def command_formation
+    @status_window.show
     @status_window.select_last
     @status_window.activate
     @status_window.set_handler(:ok,     method(:on_formation_ok))
@@ -96,6 +99,7 @@ class Scene_Menu < Scene_MenuBase
   #--------------------------------------------------------------------------
   def on_personal_cancel
     @status_window.unselect
+    @status_window.hide
     @command_window.activate
   end
   #--------------------------------------------------------------------------
@@ -121,6 +125,7 @@ class Scene_Menu < Scene_MenuBase
       @status_window.activate
     else
       @status_window.unselect
+      @status_window.hide
       @command_window.activate
     end
   end

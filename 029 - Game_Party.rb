@@ -70,7 +70,7 @@ class Game_Party < Game_Unit
   # * Get Maximum Number of Battle Members
   #--------------------------------------------------------------------------
   def max_battle_members
-    return 4
+    return 1
   end
   #--------------------------------------------------------------------------
   # * Get Leader

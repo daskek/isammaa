@@ -120,7 +120,7 @@ class Window_Command < Window_Selectable
   # * Get Alignment
   #--------------------------------------------------------------------------
   def alignment
-    return 0
+    return 1
   end
   #--------------------------------------------------------------------------
   # * Get Activation State of OK Processing
